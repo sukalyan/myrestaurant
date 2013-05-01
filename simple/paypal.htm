@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+
+<link href="style.css"rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="src/iscroll.js"></script>
+<script type="text/javascript" src="jquery-latest.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+
+<script src="jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<script type="application/javascript">
+function assign(){
+  
+   var total=readCookie('total'); 
+   //alert(total);
+   document.getElementById('tot_val').innerHTML=total;
+ 
+};
+
+
+</script>
+<script type="application/javascript">
+
+var orderidval=readCookie('orderid');
+var name=readCookie('name');
+$(function(){
+//alert(name);
+$("#pay").click(function(){
+
+//alert(name);
+
+ var yohoAPI = "http://50.56.237.229/wang/phpfiles/insert_cashpay.php?jsoncallback=?&oid="+orderidval+"&uid="+name;
+  $.getJSON( yohoAPI, {
+    
+    format: "json"
+  })
+  .done(function( data ) {
+  
+  
+  
+     var statusval=data.items;
+	// if(statusval==1)
+//	 {
+ document.location.href="thanks.htm";
+//	 }
+
+});
+
+});
+
+});
+</script>
+
+<script type="text/javascript">
+
+var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+</script>
+<script>
+$(document).ready(function() {
+ 
+var name=readCookie('name');
+ if(name)
+ {
+ unm="Welcome  "+name;
+ }
+ else
+ {
+ unm="Welcome  Anonymous User";
+ }
+ 
+ $('#welcome').html(unm);
+});
+</script>
+
+<style type="text/css" media="all">
+body,ul,li {
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+body {
+	font-size:12px;
+	-webkit-user-select:none;
+    -webkit-text-size-adjust:none;
+	font-family:helvetica;
+/*	padding-bottom:44px;	/*	This prevents the scroller to lock if the user swipes down outside of the screen.
+							 	NOT needed if in home screen mode and on Android. */
+}
+
+#header {
+	width:100%;
+	height:auto;
+	min-height:50px;
+	line-height:45px;
+	 background:url(images/topbar.jpg) ;
+	 box-shadow: inset 0px 15px 30px 0px rgba(255,255,255,0.1);
+	  text-align:center;
+	    font-family:'KaushanScriptRegular', Arial, sans-serif;
+	padding-top:2%;
+	color:#ffffff;
+	font-size:30px;
+	}
+@font-face {
+    font-family: 'KaushanScriptRegular';
+    src: url('KaushanScript-Regular-webfont.eot');
+    src: url('KaushanScript-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('KaushanScript-Regular-webfont.woff') format('woff'),
+         url('KaushanScript-Regular-webfont.ttf') format('truetype'),
+         url('KaushanScript-Regular-webfont.svg#KaushanScriptRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#header a {
+	color:#f3f3f3;
+	text-decoration:none;
+	font-weight:bold;
+	text-shadow:0 -1px 0 rgba(0,0,0,0.5);
+}
+
+#footer {
+	width:100%;
+	height:65px;
+	position:absolute; z-index:2;
+	color:#ffffff;
+bottom:0;
+padding:0;
+	 background:url(images/topbar.jpg) ;
+	 box-shadow: inset 0px 15px 30px 0px rgba(255,255,255,0.1);
+}
+
+#footer li {
+	display:block;
+	float:left;
+}
+
+#footer li {
+	width:50%;
+	text-align:center;
+}
+
+#footer a.remove {
+	border-right:1px solid #333;
+}
+
+#footer a.add {
+	border-left:1px solid #6a6a6a;
+}
+
+#footer a {
+	display:block;
+	text-decoration:none;
+	font-size:12px;
+	color:#ffffff;
+	line-height:24px;
+	text-shadow:0 -1px 0 #000;
+}
+
+#footer span {
+	display:block;
+	font-size:30px;
+	font-weight:bold;
+}
+
+#wrapper {
+			/* Of course you need to specify the object height */
+top:60px; bottom:48px; 
+	position:absolute; z-index:1;
+	width:100%;
+	
+	overflow:hidden;
+}
+
+#scroller {
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+
+/*	-webkit-box-shadow:0 0 8px #555;	/* Don't use box shadows, they slow down drastically CSS animations */
+}
+
+#scroller ul {
+	list-style:none;
+	padding:0;
+	margin:0;
+	width:100%;
+	text-align:left;
+}
+
+#scroller li {
+	padding:0 10px;
+	height:40px;
+	line-height:40px;
+	border-bottom:1px solid #ccc;
+	border-top:1px solid #fff;
+	background-color:#fafafa;
+	font-size:14px;
+}
+
+#scroller li > a {
+	display:block;
+}
+#myFrame {
+	position:absolute;
+	top:0; left:0;
+}
+
+</style>
+
+
+
+<style>
+.button1{
+height:30px;
+border-radius:5px;
+color:#ffffff;
+background: rgb(180,221,180); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(180,221,180,1) 0%, rgba(131,199,131,1) 17%, rgba(82,177,82,1) 33%, rgba(0,138,0,1) 67%, rgba(0,87,0,1) 83%, rgba(0,36,0,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(180,221,180,1)), color-stop(17%,rgba(131,199,131,1)), color-stop(33%,rgba(82,177,82,1)), color-stop(67%,rgba(0,138,0,1)), color-stop(83%,rgba(0,87,0,1)), color-stop(100%,rgba(0,36,0,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(180,221,180,1) 0%,rgba(131,199,131,1) 17%,rgba(82,177,82,1) 33%,rgba(0,138,0,1) 67%,rgba(0,87,0,1) 83%,rgba(0,36,0,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(180,221,180,1) 0%,rgba(131,199,131,1) 17%,rgba(82,177,82,1) 33%,rgba(0,138,0,1) 67%,rgba(0,87,0,1) 83%,rgba(0,36,0,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(180,221,180,1) 0%,rgba(131,199,131,1) 17%,rgba(82,177,82,1) 33%,rgba(0,138,0,1) 67%,rgba(0,87,0,1) 83%,rgba(0,36,0,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom, rgba(180,221,180,1) 0%,rgba(131,199,131,1) 17%,rgba(82,177,82,1) 33%,rgba(0,138,0,1) 67%,rgba(0,87,0,1) 83%,rgba(0,36,0,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4ddb4', endColorstr='#002400',GradientType=0 ); /* IE6-9 */
+}
+table{
+width:80%;
+height:auto;
+float:left;
+margin-left:8%;
+margin-top:5%;
+
+
+
+}
+tr{
+width:100%;
+height:40px;
+
+margin-top:5%;
+}
+.textbox1{
+width:100%; 
+height:38px;
+border-radius:5px; -moz-border-radius:5px;
+-moz-box-shadow: 0 0 3px #888; 
+-webkit-box-shadow: 0 0 3px #888;
+box-shadow: 0 0 3px #888; 
+padding-left:1%;
+color:#666666;
+border:none;
+background: -webkit-gradient(linear, 0% 0%, 0% 5%, from(#efefef), to(#ffffff)); /* Safari 5.1, Chrome 10+ */
+background: -webkit-linear-gradient(top, #efefef, #ffffff); /* Firefox 3.6+ */ 
+background: -moz-linear-gradient(top, #efefef, #ffffff); /* IE 10 */ 
+background: -ms-linear-gradient(top, #efefef, #ffffff); /* Opera 11.10+ */
+background: -o-linear-gradient(top, #efefef, #ffffff);
+}
+</style>
+
+<title>Untitled Document</title>
+</head>
+
+<body onload="return assign();">
+<div id="header" >
+
+Wang
+
+</div>
+
+
+
+<div id="wrapper">
+	<div id="scroller">
+			<div id="container" style=" padding-bottom:20px;">
+			<div id="welcome"></div>
+<div style="width:100%; height:30px; float:left;  text-align:center; font-family:Arial, Helvetica, sans-serif; font-size:16px;padding-top:10px;">
+	Card Holder's Details
+</div>
+<table>
+<tr>
+<td style="font-weight:bold;">Paypal</td>
+<td id="tot_val" style="text-align:right;"></td>
+</tr>
+<tr></tr>
+<tr>
+  <td colspan="2">Card Holder's Name:</td>
+</tr>
+<tr>
+  <td colspan="2"><input type="text" name="name" class="textbox1"  /></td>
+</tr>
+<tr>
+  <td>Card Number:</td>
+  <td>CVC Code:</td>
+</tr>
+<tr>
+  <td><input type="text" name="card_num"  class="textbox1" style="width:45%; " /></td>
+  <td><input type="text" name="card_code" class="textbox1" style="width:55%; " /></td>
+</tr>
+<tr>
+  <td>Expiration Date</td>
+  <td><input type="text" name="exdate" class="textbox1" style="width:55%; "  /></td>
+</tr>
+<tr><td colspan="2"><input type="button" name="button" id="pay" value="PAY"  style="background:url(images/button.png); width:120px; height:33px; border:none; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#FFFFFF;"/></td></tr>
+</table>
+</div>
+<div style="width:100%; float:left; text-align:center; margin-top:8%;">
+									
+		
+			</div>
+</div>
+</div>
+
+<div id="footer">
+
+					<div style="width:49%;  padding-top:6%; padding-left:1%; float:left; font-weight:bold; font-family:Arial, Helvetica, sans-serif; font-size:16px; ">
+						Version 3.1
+					</div>	
+					<div style="width:49%; height:auto; padding-top:6%; float:left; padding-right:1%; text-align:right;">
+						<img src="images/linkedin.png" />
+						<img src="images/twitter.png" />
+						<img src="images/facebook.png" />
+					</div>
+						
+
+			</div>
+</body>
+</html>

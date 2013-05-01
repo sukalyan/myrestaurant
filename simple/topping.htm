@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Restaurant</title>
+<link href="style.css"rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="src/iscroll.js"></script>
+<script type="text/javascript" src="jquery-latest.js"></script>
+
+<script>
+function check(x)
+{
+
+document.getElementById(x).checked=true;
+
+}
+</script> 
+<script type="text/javascript">
+
+var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+</script>
+<script type="application/javascript">
+
+$(function(){
+  
+var itemidval=localStorage.itemvalue;
+
+
+    
+  var flickerAPI = "http://50.56.237.229/wang/phpfiles/find_topping.php?jsoncallback=?&itemval="+itemidval;
+  $.getJSON( flickerAPI, {
+    tags: "mount rainier",
+    tagmode: "any",
+    format: "json"
+  }).done(function( data ) {
+    $.each( data.items, function( i, it ) {
+    	
+  //alert("sdfsdfsdf");
+	  var details=$('#topping_det').html();
+	  //alert(details);
+	  
+	  
+	  	if(it.toppingid){
+			details=details.replace('**idval**',it.toppingid);
+			//alert(it1.menuid);
+			}
+			
+			if(it.toppingid){
+			details=details.replace('**a**',it.toppingid);
+			//alert(it1.menuid);
+			}
+			
+	  	 if(it.toppingid){
+			details=details.replace('**toppingid**',it.toppingid);
+			//alert(it1.menuid);
+			}
+		 if(it.tname){
+			details=details.replace('**toppingname**',it.tname);
+		
+						}
+		 if(it.price){
+			details=details.replace('**toppingprice**',it.price);
+		
+						}
+			
+		$('#toppingvalue').append(details);
+		
+		});
+    });
+	 });
+  
+</script>
+<script>
+function cancel()
+{
+window.location.href="location.htm";
+
+
+}
+</script>
+
+
+<script type="application/javascript">
+
+var itemidval=localStorage.itemvalue;
+var orderidval=localStorage.orderid;
+var name=localStorage.name;
+var restoid=localStorage.restoid_val;
+//alert(name);
+
+var value="";
+$(function(){
+
+$("#cont").click(function(){
+
+var qty=document.getElementById('itemquantity').value;
+
+
+$('input:checkbox[name=toppingid]:checked').each(function() 
+{
+   
+   if($(this).is(':checked'))
+      value=value+'|'+$(this).val();
+   
+   
+});
+//alert(value);
+
+ var yohoAPI = "http://50.56.237.229/wang/phpfiles/insert_order.php?jsoncallback=?&oid="+orderidval+"&item="+itemidval+"&topping="+value+"&uid="+name+"&resto="+restoid+"&quantityval="+qty;
+  $.getJSON( yohoAPI, {
+    tags: "mount rainier",
+    tagmode: "any",
+    format: "json"
+  })
+  .done(function( data ) {
+  
+ 
+  
+     var statusval=data.items;
+	 if(statusval==1)
+	 {
+	 document.location.href="menu.htm";
+	 }
+
+});
+
+});
+});
+</script>
+
+
+<script type="application/javascript">
+
+var itemidval=localStorage.itemvalue;
+var orderidval=localStorage.orderid;
+var restoid=localStorage.restoid_val;
+
+
+var value="";
+$(function(){
+
+$("#pick").click(function(){
+
+var qty=document.getElementById('itemquantity').value;
+
+$('input:checkbox[name=toppingid]:checked').each(function() 
+{
+   
+   if($(this).is(':checked'))
+      value=value+'|'+$(this).val();
+   
+   
+});
+//alert(value);
+
+ var yohoAPI = "http://50.56.237.229/wang/phpfiles/insert_orderf.php?jsoncallback=?&oid="+orderidval+"&item="+itemidval+"&topping="+value+"&uid="+name+"&resto="+restoid+"&quantityval="+qty;
+  $.getJSON( yohoAPI, {
+    
+    format: "json"
+  })
+  .done(function( data ) {
+  
+  
+  
+     var statusval=data.items;
+	// if(statusval==1)
+//	 {
+ document.location.href="datepicker.htm";
+//	 }
+
+});
+
+});
+
+});
+</script>
+
+<style type="text/css" media="all">
+body,ul,li {
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+body {
+	font-size:12px;
+	-webkit-user-select:none;
+    -webkit-text-size-adjust:none;
+	font-family:helvetica;
+/*	padding-bottom:44px;	/*	This prevents the scroller to lock if the user swipes down outside of the screen.
+							 	NOT needed if in home screen mode and on Android. */
+}
+
+#header {
+	width:100%;
+	height:auto;
+	min-height:50px;
+	line-height:45px;
+	 background:url(images/topbar.jpg) ;
+	 box-shadow: inset 0px 15px 30px 0px rgba(255,255,255,0.1);
+	  text-align:center;
+	    font-family:'KaushanScriptRegular', Arial, sans-serif;
+	padding-top:2%;
+	color:#ffffff;
+	font-size:30px;
+	}
+@font-face {
+    font-family: 'KaushanScriptRegular';
+    src: url('KaushanScript-Regular-webfont.eot');
+    src: url('KaushanScript-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('KaushanScript-Regular-webfont.woff') format('woff'),
+         url('KaushanScript-Regular-webfont.ttf') format('truetype'),
+         url('KaushanScript-Regular-webfont.svg#KaushanScriptRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+#header a {
+	color:#f3f3f3;
+	text-decoration:none;
+	font-weight:bold;
+	text-shadow:0 -1px 0 rgba(0,0,0,0.5);
+}
+
+#footer {
+	width:100%;
+	height:65px;
+	position:absolute; z-index:2;
+	color:#FFFFFF;
+	bottom:0;
+	padding:0;
+	background:url(images/header1.png) repeat-x ;
+	 box-shadow: inset 0px 15px 30px 0px rgba(255,255,255,0.1);
+}
+
+#footer li {
+	display:block;
+	float:left;
+}
+
+#footer li {
+	width:50%;
+	text-align:center;
+}
+
+#footer a.remove {
+	border-right:1px solid #333;
+}
+
+#footer a.add {
+	border-left:1px solid #6a6a6a;
+}
+
+#footer a {
+	display:block;
+	text-decoration:none;
+	font-size:12px;
+	color:#eee;
+	line-height:24px;
+	text-shadow:0 -1px 0 #000;
+}
+
+#footer span {
+	display:block;
+	font-size:30px;
+	font-weight:bold;
+}
+
+
+#wrapper {
+			/* Of course you need to specify the object height */
+top:60px; bottom:48px; 
+	position:absolute; z-index:1;
+	width:100%;
+	
+	overflow:hidden;
+}
+
+#scroller {
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+
+	float:left;
+	width:100%;
+	padding:0;
+
+/*	-webkit-box-shadow:0 0 8px #555;	/* Don't use box shadows, they slow down drastically CSS animations */
+}
+
+#scroller ul {
+	list-style:none;
+	padding:0;
+	margin:0;
+	width:100%;
+	text-align:left;
+}
+
+#scroller li {
+	padding:0 10px;
+	height:40px;
+	line-height:40px;
+	border-bottom:1px solid #ccc;
+	border-top:1px solid #fff;
+	background-color:#fafafa;
+	font-size:14px;
+}
+
+#scroller li > a {
+	display:block;
+}
+#myFrame {
+	position:absolute;
+	top:0; left:0;
+}
+</style>
+
+
+
+<style>
+.button3{
+border:1px solid #26759E;-webkit-box-shadow: #FEFFFF 0px 1px 3px inset;-moz-box-shadow: #FEFFFF 0px 1px 3px inset; box-shadow: #FEFFFF 0px 1px 3px inset; -webkit-border-radius: 7px; -moz-border-radius: 7px;border-radius: 7px;font-size:14px;font-family:lucida sans unicode, lucida grande, sans-serif; padding: 11px 5px 11px 5px; text-shadow: 0px 1px 0 rgba(0,0,0,0.5); text-align: center; color: #FFFFFF;background-color: #60FA1E;
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #60FA1E), color-stop(100%, #174F17));
+ background-image: -webkit-linear-gradient(top, #60FA1E, #174F17);
+ background-image: -moz-linear-gradient(top, #60FA1E, #174F17);
+ background-image: -ms-linear-gradient(top, #60FA1E, #174F17);
+ background-image: -o-linear-gradient(top, #60FA1E, #174F17);
+ background-image: linear-gradient(top, #60FA1E, #174F17);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#60FA1E, endColorstr=#174F17);
+}
+
+.button6{
+-webkit-border-radius: 7px; 
+-moz-border-radius: 7px;
+border-radius: 7px;font-size:14px;
+width:100%;
+ height:40px;
+ margin-top:1%;
+ font-size:14px; 
+ color:#FFFFFF;
+ border:none;
+font-family:lucida sans unicode, lucida grande, sans-serif; 
+padding: 11px 5px 11px 5px; text-shadow: 0px 1px 0 rgba(0,0,0,0.5); text-align: center; color: #FFFFFF;background: #ff1a00; /* Old browsers */
+background: -moz-linear-gradient(top, #ff1a00 0%, #ff1a00 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff1a00), color-stop(100%,#ff1a00)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ff1a00 0%,#ff1a00 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ff1a00 0%,#ff1a00 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ff1a00 0%,#ff1a00 100%); /* IE10+ */
+background: linear-gradient(to bottom, #ff1a00 0%,#ff1a00 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff1a00', endColorstr='#ff1a00',GradientType=0 ); /* IE6-9 */
+}
+
+
+.textbox1{
+width:100%; 
+height:28px;
+border-radius:5px; -moz-border-radius:5px;
+-moz-box-shadow: 0 0 3px #888; 
+-webkit-box-shadow: 0 0 3px #888;
+box-shadow: 0 0 3px #888; 
+padding-left:1%;
+color:#666666;
+border:none;
+background: -webkit-gradient(linear, 0% 0%, 0% 5%, from(#efefef), to(#ffffff)); /* Safari 5.1, Chrome 10+ */
+background: -webkit-linear-gradient(top, #efefef, #ffffff); /* Firefox 3.6+ */ 
+background: -moz-linear-gradient(top, #efefef, #ffffff); /* IE 10 */ 
+background: -ms-linear-gradient(top, #efefef, #ffffff); /* Opera 11.10+ */
+background: -o-linear-gradient(top, #efefef, #ffffff);
+}
+</style>
+
+  <script>
+$(document).ready(function() {
+  var nameval=localStorage.name;
+ if(nameval)
+ {
+ //alert("dfkdf");
+ var name="Welcome    "+nameval;
+ }
+ else
+ {
+ var name="Welcome  User";
+ }
+ 
+ 
+
+ 
+ $('#welcome').html(name);
+
+});
+</script> 
+   
+ <script>
+ $(document).ready(function() {
+// alert(8);
+ $('#plus').click(function(){
+ 
+ 
+ $('#itemquantity').val( $('#itemquantity').val()-0+1);
+ //alert(document.getElementById('itemquantity').value);
+ 
+ //var val=document.getElementById('itemquantity').value ++;
+ //alert(val);
+ //document.getElementById('itemquantity').value=val;
+ });
+ $('#minus').click(function(){
+ var minusval=$('#itemquantity').val();
+ if(minusval!=1)
+ {
+ $('#itemquantity').val( $('#itemquantity').val()-1);
+ }
+ 
+ });
+ 
+ });
+ </script>
+
+</head>
+
+
+<body>
+
+<div id="header" >
+
+My Restaurant
+
+</div>
+
+
+<div id="wrapper">
+	<div id="scroller">
+			<div id="container" style=" padding-bottom:20px;">
+					<div style="width:100%; height:auto; float:left; text-align:center;"><span style="color:#B90000;">Add Your</span> Toppings</div>
+			<div  style=" width:80%; margin:auto; text-align:center;">
+			
+				<div id="toppingvalue" style="width:50%; float:left; ">
+				</div>
+				
+				<div style="width:45%; margin-legt:5%; float:left;">
+			<input type="button" name="plus" id="plus" value="+" /><input type="text" class="textbox1" name="itemquantity" id="itemquantity" value="1" /><input type="button" name="minus" id="minus" value="-" />
+				</div>
+			
+			</div>
+		
+			<div style="width:100%; height:auto; float:left;display:none; margin-top:1%;" id="topping_det">
+			
+					<div style="height:15%; width:80%; float:left; margin-bottom:0%; margin-top:6%;"  onclick="return check(**idval**);">
+							<div style="float:left;" class="name"><input type="checkbox" value="**toppingid**" class="idval" name="toppingid" style="float:left;" id="**a**" /></div>
+							<div  id="toppingname" class="name" style="float:left;">**toppingname** &nbsp;&nbsp;**toppingprice**</div>
+					</div>
+					
+				
+			</div>
+		
+			
+			
+					
+					
+			<div style="width:100%; float:left; text-align:center; margin-top:8%;">
+									
+		
+			
+					
+			<div style="width:100%; text-align:center;">
+			<input type="button" name="submit"  id="pick" value="Pickup Datetime" class="button6"  />
+			</div>
+			
+			<input type="button" name="submit"  id="cont" value="Cont Shopping" class="button6"  />
+			
+			<input type="button" name="submit"  id="cancel" value="Cancel" class="button6" />
+			
+			</div>	
+					
+					
+					<div style="width:100%; height:100px; float:left;">
+					</div>	
+			</div>
+			</div>
+			</div>
+			
+			
+			<div id="footer">
+
+					<div class="button" style="border-left:none;">
+									<div class="bottomtext">
+												<a href="about.htm"><img src="images/aboutus1.png" border="0" style="margin-top:2%;" /></a>
+												<a href="about.htm">About Us</a>
+									</div>
+					</div>
+					<div class="button">
+									<div class="bottomtext">
+												<a href="feedback.htm"><img src="images/feedback.png" border="0" style="margin-top:2%;" /></a>
+												<a href="feedback.htm">Feedback</a>
+									</div>
+					</div>
+					
+					<div class="button">
+									<div class="bottomtext">
+												<a href="cart.htm"><img src="images/cart.png" border="0" style="margin-top:2%;" /></a>
+												<a href="cart.htm">Cart</a>
+									</div>
+					</div>
+					
+					<div class="button" >
+									<div class="bottomtext">
+												<a href="profile.htm"><img src="images/aboutus.png" border="0"  style="margin-top:2%;"/></a>
+												<a href="profile.htm">Profile</a>
+									</div>
+					</div>	
+
+			</div>
+
+
+<!-- jQuery Plugin -->
+
+
+<!-- Preloader -->
+<script type="text/javascript">
+	//<![CDATA[
+		$(window).load(function() { // makes sure the whole site is loaded
+			$("#status").fadeOut(); // will first fade out the loading animation
+			$("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
+		})
+	//]]>
+</script> 
+</body>
+</html>

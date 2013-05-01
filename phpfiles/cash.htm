@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<script src="jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<script type="application/javascript">
+function assign(){
+  
+   var total=readCookie('total'); 
+   //alert(total);
+   document.getElementById('tot_val').innerHTML=total;
+ 
+};
+
+
+</script>
+
+<script type="application/javascript">
+
+var orderidval=readCookie('orderid');
+
+$(function(){
+
+$("#pay").click(function(){
+
+
+
+ var yohoAPI = "http://50.56.237.229/wang/phpfiles/insert_cashpay.php?jsoncallback=?&oid="+orderidval;
+  $.getJSON( yohoAPI, {
+    
+    format: "json"
+  })
+  .done(function( data ) {
+  
+  
+  
+     var statusval=data.items;
+	// if(statusval==1)
+//	 {
+ document.location.href="thanks.htm";
+//	 }
+
+});
+
+});
+
+});
+</script>
+
+<style>
+html{
+			width:100%;
+			}
+			body{
+			width:100%;
+			}
+			
+			
+#container{
+width:100%;
+height:auto;
+float:left;
+}
+table{
+width:80%;
+height:auto;
+float:left;
+margin-left:10%;
+margin-top:5%;
+
+
+
+background: rgb(234,239,181); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(234,239,181,1) 0%, rgba(225,233,160,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(234,239,181,1)), color-stop(100%,rgba(225,233,160,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(234,239,181,1) 0%,rgba(225,233,160,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(234,239,181,1) 0%,rgba(225,233,160,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(234,239,181,1) 0%,rgba(225,233,160,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom, rgba(234,239,181,1) 0%,rgba(225,233,160,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaefb5', endColorstr='#e1e9a0',GradientType=0 ); /* IE6-9 */
+
+
+}
+tr{
+width:100%;
+height:40px;
+
+margin-top:5%;
+}
+</style>
+<title>Untitled Document</title>
+</head>
+
+<body onload="return assign();">
+<div id="container">
+<div style="width:94%; height:30px; float:left; border:1px solid #993300;margin-left:1%; text-align:center; font-family:Arial, Helvetica, sans-serif; font-size:16px;padding-top:10px;">
+	Card Holder's Details
+</div>
+<table>
+	<tr>
+		<td>Cash</td>
+		</tr>
+<tr>
+<td id="tot_val">
+</td>
+</tr>
+<tr>
+  <td colspan="2">Card Holder's Name:</td>
+</tr>
+
+<tr>
+  <td colspan="2"><input type="text" name="name" style="width:80%; height:35px;"  /></td>
+</tr>
+<tr>
+  <td>Card Number:</td>
+  <td>CVC Code:</td>
+</tr>
+<tr>
+  <td><input type="text" name="card_num"  style="width:50%; height:25px;" /></td>
+  <td><input type="text" name="card_code"  style="width:50%; height:25px;" /></td>
+</tr>
+<tr>
+  <td>Expiration Date</td>
+  <td><input type="text" name="exdate" style="width:60%; height:25px;" /></td>
+</tr>
+<tr><td colspan="2"><input type="button" name="button" id="pay" value="PAY" /></td></tr>
+</table>
+</div>
+</body>
+</html>

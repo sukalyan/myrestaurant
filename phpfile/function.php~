@@ -1,0 +1,10 @@
+<?php
+
+$host="localhost";
+$userid="root";
+$password="colourfade";
+$db="wang_resturant";
+$con=mysql_connect($host,$userid,$password);
+mysql_select_db($db,$con);
+$linkval="http://192.168.2.22/wang/phpfiles/confirmation.php";
+?>
